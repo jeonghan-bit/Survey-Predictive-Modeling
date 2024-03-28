@@ -288,6 +288,8 @@ df_test.fillna({'v228b_r': -3}, inplace=True)
 # %%
 ######################################## EDA - JEONGHAN ########################################
 merge_colname = find_colname_end(df_train, '_11c')
+merge_columns(df_train, merge_colname)
+merge_columns(df_test, merge_colname)
 # print(find_colname(train_x_raw, 'c', 'endwith'))
 # print(find_colname(train_x_raw, '_r', 'endwith'))
 ### Find variables containing _cs and do SimpleAggregation
