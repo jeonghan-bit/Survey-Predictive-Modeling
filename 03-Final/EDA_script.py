@@ -291,8 +291,8 @@ merge_columns(df_test, merge_colname)
 # print(find_colname(train_x_raw, '_r', 'endwith'))
 ### Find variables containing _cs and do SimpleAggregation
 # print(find_colname(df_train, '_cs', 'endwith'))
-aggregatecol = find_colname_end(df_train, '_cs')
-simpleAggregation(aggregatecol) #### TRAIN/TEST BOTH APPLICABLE
+#aggregatecol = find_colname_end(df_train, '_cs')
+#simpleAggregation(aggregatecol) #### TRAIN/TEST BOTH APPLICABLE
 
 timeEDA(df_train)
 timeEDA(df_test)
