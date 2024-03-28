@@ -282,9 +282,6 @@ df_test.fillna({'v251b_r': -3}, inplace=True)
 df_train.fillna({'v228b_r': -3}, inplace=True)
 df_test.fillna({'v228b_r': -3}, inplace=True)
 
-
-
-
 # %%
 ######################################## EDA - JEONGHAN ########################################
 merge_colname = find_colname_end(df_train, '_11c')
