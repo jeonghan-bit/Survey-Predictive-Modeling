@@ -250,19 +250,6 @@ merge_columns(df_test, merge_colname)
 timeEDA(df_train)
 timeEDA(df_test)
 
-##################################################### ONE HOT ENCODING ##################################################
-columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
-df_train.drop(columns=columns_to_drop, inplace=True)
-df_test.drop(columns=columns_to_drop, inplace=True)
-
-columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
-columns_to_encode += find_colname_end(df_train, '_cs')
-columns_to_encode += ['v246_ESeC','v255_ESeC']
-
-df_train = pd.get_dummies(df_train, columns=columns_to_encode)
-df_test = pd.get_dummies(df_test, columns=columns_to_encode)
-df_train = df_train.reindex(columns = sorted(df_train.columns))
-df_test = df_test.reindex(columns = sorted(df_test.columns))
 ################################################ 'DE' / 'GB' Country Specific Dropped ##################################################
 
 
@@ -279,8 +266,22 @@ columns_to_drop = ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172'
 df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
 df_test.drop(columns=columns_to_drop, inplace=True, axis=1)
 
+##################################################### ONE HOT ENCODING ##############################################################################################
+columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
+df_train.drop(columns=columns_to_drop, inplace=True)
+df_test.drop(columns=columns_to_drop, inplace=True)
 
-##################################################################### CORRELATION CHECKUP ##########################################################################
+columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
+columns_to_encode += find_colname_end(df_train, '_cs')
+columns_to_encode += ['v246_ESeC','v255_ESeC']
+
+df_train = pd.get_dummies(df_train, columns=columns_to_encode)
+df_test = pd.get_dummies(df_test, columns=columns_to_encode)
+df_train = df_train.reindex(columns = sorted(df_train.columns))
+df_test = df_test.reindex(columns = sorted(df_test.columns))
+
+
+################################################## CORRELATION CHECKUP ##########################################################
 corr = df_train.corr()
 pairs = []
 
