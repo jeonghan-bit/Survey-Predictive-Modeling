@@ -1,5 +1,3 @@
-# %%
-# Import packages
 import pandas as pd
 from warnings import simplefilter
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
@@ -12,9 +10,9 @@ import seaborn as sns
 pd.options.display.max_rows = 999
 pd.options.display.max_columns = 999
 
-train_x_raw = pd.read_csv("../01-Data/X_train.csv", low_memory = True, index_col=0)
-train_y_raw = pd.read_csv("../01-Data/y_train.csv", low_memory = True, index_col=0)
-test_x_raw = pd.read_csv("../01-Data/X_test.csv", low_memory=True, index_col=0)
+train_x_raw = pd.read_csv("..01-Data/X_train.csv", low_memory = False, index_col=0)
+train_y_raw = pd.read_csv("..01-Data/y_train.csv", low_memory = False, index_col=0)
+test_x_raw = pd.read_csv("X_test.csv", low_memory= False, index_col=0)
 
 df_train = pd.DataFrame(train_x_raw)
 df_test = pd.DataFrame(test_x_raw)
@@ -250,48 +248,27 @@ merge_columns(df_test, merge_colname)
 timeEDA(df_train)
 timeEDA(df_test)
 
-################################################ 'DE' / 'GB' Country Specific Dropped ##################################################
 
+###################################################################### CORRELATION CHECKUP ##########################################################################
+df_numerical_train = df_train.copy()
+for col in df_train.columns:
+  if pd.api.types.is_string_dtype(df_train[col]):
+    print(col)
+    df_numerical_train.drop(col, inplace =True, axis=1)
 
-## removed the column having 'GB'
-df_train.drop(list(df_train.filter(regex='DE')), axis=1, inplace=True)
-df_test.drop(list(df_test.filter(regex='DE')), axis=1, inplace=True)
-
-## removed the column having 'GB'
-df_train.drop(list(df_train.filter(regex='GB')), axis=1, inplace=True)
-df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
-
-
-columns_to_drop = ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
-df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
-df_test.drop(columns=columns_to_drop, inplace=True, axis=1)
-
-##################################################### ONE HOT ENCODING ##############################################################################################
-columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
-df_train.drop(columns=columns_to_drop, inplace=True)
-df_test.drop(columns=columns_to_drop, inplace=True)
-
-columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
-columns_to_encode += find_colname_end(df_train, '_cs')
-columns_to_encode += ['v246_ESeC','v255_ESeC']
-
-df_train = pd.get_dummies(df_train, columns=columns_to_encode)
-df_test = pd.get_dummies(df_test, columns=columns_to_encode)
-df_train = df_train.reindex(columns = sorted(df_train.columns))
-df_test = df_test.reindex(columns = sorted(df_test.columns))
-
-
-################################################## CORRELATION CHECKUP ##########################################################
-corr = df_train.corr()
+corr = df_numerical_train.corr()
 pairs = []
 
 for i in range(len(corr.columns)):
+
     for j in range(i+1, len(corr.columns)):  # i+1 to exclude self-correlation
         if (0.95 <= corr.iloc[i, j] <= 1) or (-1 <= corr.iloc[i, j] <= -0.95):
             pairs.append((corr.columns[i], corr.columns[j]))
-            
-set_pairs = []
 
+print(pairs)
+
+
+set_pairs = []
 for e in pairs:
      set_pairs.append(set(e))
 
@@ -299,7 +276,7 @@ x = list(set().union(*set_pairs))
 
 dic = {}
 for e in x:
-    dic[e] = df_train[e].corr(df_y['label'])
+    dic[e] = df_numerical_train[e].corr(df_y['label'])
 
 remainder = []
 for i in set_pairs:
@@ -315,11 +292,49 @@ for i in set_pairs:
         dropped.append(i[0])
     else:
         dropped.append(i[1])
-for e in dropped:
-    if not e in df_train.columns :
-        continue
-    df_train.drop(e, inplace=True, axis=1)
-    df_test.drop(e, inplace=True, axis=1)
+
+## List to be dropped (corr>0.95)
+## ['v275c_N2', 'v275c_N1', 'v20a', 'v30b', 'v45b', 'v96a', 'v136_11c', 'v135_11c', 'v141_11c', 'v136_11c', 'v141_11c', 'v176_DK', 'v176_DK', 'v176_DK', 'v176_DK', 'v176_DK', 'v176_DK', 'v176_DK',
+## 'v177_DK', 'v177_DK', 'v177_DK', 'v181_DK', 'v177_DK', 'v177_DK', 'v179_DK', 'v180_DK', 'v181_DK', 'v182_DK', 
+## 'v183_DK', 'v180_DK', 'v181_DK', 'v182_DK', 'v183_DK', 'v181_DK', 'v180_DK', 'v183_DK', 'v181_DK', 'v181_DK', 'v183_DK', 'v222_DK', 'v223_DK', 'v224_DK', 'v222_DK', 'v224_DK', 'v224_DK', 'v275c_N2']
+
+# List to be dropped (Too wide CI)
+columns_to_drop = ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
+df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
+df_test.drop(columns=columns_to_drop, inplace=True, axis=1)
+
+
+
+##################################################### ONE HOT ENCODING ##################################################
+columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
+c1=set(columns_to_drop)
+columns_to_drop = list(c1.union(set(dropped)))
+df_train.drop(columns=columns_to_drop, inplace=True)
+df_test.drop(columns=columns_to_drop, inplace=True)
+
+columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
+columns_to_encode += find_colname_end(df_train, '_cs')
+columns_to_encode += ['v246_ESeC','v255_ESeC']
+
+df_train = pd.get_dummies(df_train, columns=columns_to_encode)
+df_test = pd.get_dummies(df_test, columns=columns_to_encode)
+df_train = df_train.reindex(columns = sorted(df_train.columns))
+df_test = df_test.reindex(columns = sorted(df_test.columns))
+################################################ 'DE' / 'GB' Country Specific Dropped ##################################################
+
+
+## removed the column having 'GB'
+df_train.drop(list(df_train.filter(regex='DE')), axis=1, inplace=True)
+df_test.drop(list(df_test.filter(regex='DE')), axis=1, inplace=True)
+
+## removed the column having 'GB'
+df_train.drop(list(df_train.filter(regex='GB')), axis=1, inplace=True)
+df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
+
+
+
+
+
 
 
 
