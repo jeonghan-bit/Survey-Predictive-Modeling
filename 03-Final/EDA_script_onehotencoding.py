@@ -274,4 +274,16 @@ df_train = pd.get_dummies(df_train, columns=columns_to_encode)
 df_test = pd.get_dummies(df_test, columns=columns_to_encode)
 df_train = df_train.reindex(columns = sorted(df_train.columns))
 df_test = df_test.reindex(columns = sorted(df_test.columns))
-#######################################################################################################
+###########################################################################################################################################
+
+
+
+
+
+###################################################################### COLRELATION CHECKUP ##########################################################################
+
+
+
+
+
+
