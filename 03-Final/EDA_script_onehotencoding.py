@@ -126,7 +126,7 @@ def timeEDA(data):
 # %% [markdown]
 ############################################################ EDA-AMY ############################################################
 # ### Age-related variables processing
-columns_to_drop = ['c_abrv', 'f46_IT', 'v72_DE', 'v73_DE', 'v74_DE', 'v75_DE', 'v76_DE', 'v77_DE', 'v78_DE', 'v79_DE']
+columns_to_drop = ['country', 'f46_IT', 'v72_DE', 'v73_DE', 'v74_DE', 'v75_DE', 'v76_DE', 'v77_DE', 'v78_DE', 'v79_DE']
 df_train.drop(columns=columns_to_drop, inplace=True)
 df_test.drop(columns=columns_to_drop, inplace=True)
 # %%
@@ -266,7 +266,7 @@ num_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', '
 df_train.drop(columns=num_to_drop, inplace=True)
 df_test.drop(columns=num_to_drop, inplace=True)
 
-columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
+columns_to_encode = ['c_abrv', 'v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
 df_train = pd.get_dummies(df_train, columns=columns_to_encode)
 df_test = pd.get_dummies(df_test, columns=columns_to_encode)
 df_train = df_train.reindex(columns = sorted(df_train.columns))
