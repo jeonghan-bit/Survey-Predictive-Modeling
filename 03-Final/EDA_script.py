@@ -318,7 +318,7 @@ df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
 #     df_train.drop(e, inplace=True, axis=1)
 #     df_test.drop(e, inplace=True, axis=1)
 
-columns_to_drop += ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
+columns_to_drop = ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
 df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
 df_test.drop(columns=columns_to_drop, inplace=True, axis=1)
 
