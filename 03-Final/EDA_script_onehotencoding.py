@@ -121,156 +121,24 @@ def timeEDA(data):
     data.rename(columns={'fw_start':'fw_start_month', 'fw_end':'fw_duration'}, inplace=True)
 
 
-##############################################################################################################################
 
-# %% [markdown]
-############################################################ EDA-AMY ############################################################
-# ### Age-related variables processing
-columns_to_drop = ['country', 'f46_IT', 'v72_DE', 'v73_DE', 'v74_DE', 'v75_DE', 'v76_DE', 'v77_DE', 'v78_DE', 'v79_DE']
+################################################################### GLOBAL VAR ###########################################################
+columns_to_encode = []
+
+
+
+
+##################################################### INITIAL DROP / MISSING DATA PREPROCESSING #################################################
+
+columns_to_drop = ['c_abrv', 'f46_IT', 'v72_DE', 'v73_DE', 'v74_DE', 'v75_DE', 'v76_DE', 'v77_DE', 'v78_DE', 'v79_DE']
 df_train.drop(columns=columns_to_drop, inplace=True)
 df_test.drop(columns=columns_to_drop, inplace=True)
-# %%
-# v226 year of birth respondent (Q64)
-# age age:respondent
-# age_r age recorded (6 intervals)
-# age_r2 age recoded (3 intervals)
-# age_r3 age recoded (7 intervals)
 
-ages = ['v226', 'age', 'age_r', 'age_r2', 'age_r3']
-#df_train.drop(columns=ages_to_drop, inplace=True)
-#df_test.drop(columns=ages_to_drop, inplace=True)
-# DECIDE WHICH ONE TO KEEP AFTER EVALUATING 
-
-
-
-
-# %% [markdown]
-# ### Education level-related variables drop
-
-# v243*: educational level respondent: ... with variations
-
-
-
-# %%
-# keep v243_ISCED_3: educational level respondent: ISCED-code three digit  
-v243_to_drop = ['v243_edulvlb', 'v243_edulvlb_2', 'v243_edulvlb_1', 'v243_ISCED_2', 'v243_ISCED_2b','v243_ISCED_1', 'v243_EISCED', 'v243_ISCED97', 'v243_8cat', 'v243_r', 'v243_cs', 'v243_cs_DE1', 'v243_cs_DE2', 'v243_cs_DE3', 'v243_cs_GB1', 'v243_cs_GB2']
-
-df_train.drop(columns=v243_to_drop, inplace=True)
-df_test.drop(columns=v243_to_drop, inplace=True)
-
-# %% [markdown]
-# ### Job kinds-related variables drop
-
-# %%
-
-# %%
-# keep v246_ESeC : kind of job respondent - ESEC08 code  
-v246_to_drop = ['v246_ISCO_2', 'v246_SIOPS', 'v246_ISEI', 'v246_egp']
-
-df_train.drop(columns=v246_to_drop, inplace=True)
-df_test.drop(columns=v246_to_drop, inplace=True)
-
-# %% [markdown]
-# ### Partner Education Level variables drop
-
-# %%
-
-
-# %%
-# keep v252_edulvlb_2: educational level spouse/partner: ESS-edulvlb coding two digits 
-v252_to_drop = ['v252_edulvlb', 'v252_edulvlb_1', 'v252_ISCED_3', 'v252_ISCED_2', 'v252_ISCED_2b', 'v252_ISCED_1', 'v252_EISCED', 'v252_ISCED97', 'v252_8cat', 'v252_r', 'v252_cs', 'v252_cs_DE1', 'v252_cs_DE2', 'v252_cs_DE3', 'v252_cs_GB1', 'v252_cs_GB2']
-
-df_train.drop(columns=v252_to_drop, inplace=True)
-df_test.drop(columns=v252_to_drop, inplace=True)
-
-# %% [markdown]
-# ### Kind of job partner variables drop
-
-# %%
-
-# %%
-# keep v255_ESeC: kind of job spouse/partner - ESEC08 code 
-v255_to_drop = ['v255_ISCO_2', 'v255_SIOPS', 'v255_ISEI', 'v255_egp']
-
-df_train.drop(columns=v255_to_drop, inplace=True)
-df_test.drop(columns=v255_to_drop, inplace=True)
-
-# %% [markdown]
-# ### Households income variables to drop
-
-
-
-# %%
-df_train.drop('v261_ppp', inplace=True, axis=1)
-df_test.drop('v261_ppp', inplace=True, axis=1)
-
-# %% [markdown]
-# ### education level father/mother variables drop
-
-# %%
-
-# %%
-# keep v262_edulvlb_2: educational level father: ESS-edulvlb coding two digits 
-v262_to_drop = ['v262_edulvlb', 'v262_edulvlb_1', 'v262_ISCED_3', 'v262_ISCED_2', 'v262_ISCED_2b', 'v262_ISCED_1', 'v262_EISCED', 'v262_ISCED97', 'v262_8cat', 'v262_r', 'v262_cs', 'v262_cs_DE1', 'v262_cs_DE2', 'v262_cs_DE3', 'v262_cs_GB1', 'v262_cs_GB2']
-
-df_train.drop(columns=v262_to_drop, inplace=True)
-df_test.drop(columns=v262_to_drop, inplace=True)
-
-# %%
-
-# %%
-# keep v263_edulvlb_2:educational level mother: ESS-edulvlb coding two digits
-v263_to_drop = ['v263_edulvlb', 'v263_edulvlb_2', 'v263_edulvlb_1', 'v263_ISCED_3', 'v263_ISCED_2', 'v263_ISCED_2b', 'v263_ISCED_1', 'v263_EISCED', 'v263_ISCED97', 'v263_8cat', 'v263_r', 'v263_cs', 'v263_cs_DE1', 'v263_cs_DE2', 'v263_cs_DE3', 'v263_cs_GB1', 'v263_cs_GB2']
-
-df_train.drop(columns=v263_to_drop, inplace=True)
-df_test.drop(columns=v263_to_drop, inplace=True)
-
-# %% [markdown]
-# ### Interview dates variables drop
-
-# %%
-# v277: date of interview 
-# v278a: time of interview: start hour 
-# v278b: time of interview: start minute 
-# v278c_r: time of interview: start  
-# v279a: time of interview: end hour 
-# v279b: time of interview: end minute 
-# v279c_r: time of interview: end 
-# v279d_r: time of interview: duration in minutes 
-
-times_to_drop = ['v277', 'v278b', 'v278c_r', 'v279a', 'v279b', 'v279c_r']
-
-df_train.drop(columns=times_to_drop, inplace=True)
-df_test.drop(columns=times_to_drop, inplace=True)
-
-#######################################################################################################################################
-
-# %% [markdown]
-# ### Age related variables group into intervals
-
-# %%
-# v241, v242
-# more to add
-
-# %% [markdown]
-# ### Imputation / String variable drop
-
-# %%
-######################################## EDA - JaiYeon ################################################################################
 #columns_to_drop = ['v228b', 'v231b', 'v233b', 'v251b', 'f252_edulvlb_CH', 'v275b_N1', 'v275b_N2', 'v275c_N2', 'v281a']
 columns_to_drop = ['f252_edulvlb_CH']
 df_train.drop(columns=columns_to_drop, inplace=True)
 df_test.drop(columns=columns_to_drop, inplace=True)
-## Try one hot encoding
-num_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
-df_train.drop(columns=num_to_drop, inplace=True)
-df_test.drop(columns=num_to_drop, inplace=True)
 
-columns_to_encode = ['c_abrv', 'v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
-df_train = pd.get_dummies(df_train, columns=columns_to_encode)
-df_test = pd.get_dummies(df_test, columns=columns_to_encode)
-df_train = df_train.reindex(columns = sorted(df_train.columns))
-df_test = df_test.reindex(columns = sorted(df_test.columns))
 
 ## removed the column having 'GB'
 df_train.drop(list(df_train.filter(regex='DE')), axis=1, inplace=True)
@@ -292,11 +160,93 @@ df_test.fillna({'v251b_r': -3}, inplace=True)
 
 df_train.fillna({'v228b_r': -3}, inplace=True)
 df_test.fillna({'v228b_r': -3}, inplace=True)
-# %%
-######################################## EDA - JEONGHAN ########################################
+
+
+####################################################### Age-related variables processing #############################################
+# v226 : respondent age year
+# age age:respondent
+# age_r age recorded (6 intervals)
+# age_r2 age recoded (3 intervals)
+# age_r3 age recoded (7 intervals)
+## Keep age_r3
+ages_to_drop = ['v226', 'age', 'age_r', 'age_r2']
+df_train.drop(columns=ages_to_drop, inplace=True)
+df_test.drop(columns=ages_to_drop, inplace=True)
+# DECIDE WHICH ONE TO KEEP AFTER EVALUATING 
+
+############################################################################### HOUSEHOLD / SPOUSE ######################################################################
+
+#################################### Education level-related variables drop ####################################
+# v243*: educational level respondent: ... with variations
+# keep v243_ISCED_3: educational level respondent: ISCED-code three digit  
+v243_to_drop = ['v243_edulvlb', 'v243_edulvlb_2', 'v243_edulvlb_1', 'v243_ISCED_2', 'v243_ISCED_2b','v243_ISCED_1', 'v243_EISCED', 
+                'v243_ISCED97', 'v243_8cat', 'v243_r', 'v243_cs', 'v243_cs_DE1', 'v243_cs_DE2', 'v243_cs_DE3', 'v243_cs_GB1', 'v243_cs_GB2']
+df_train.drop(columns=v243_to_drop, inplace=True)
+df_test.drop(columns=v243_to_drop, inplace=True)
+
+# ### Job kinds-related variables drop
+### keep v246_ESeC : kind of job respondent
+v246_to_drop = ['v246_ISCO_2', 'v246_SIOPS', 'v246_ISEI', 'v246_egp']
+df_train.drop(columns=v246_to_drop, inplace=True)
+df_test.drop(columns=v246_to_drop, inplace=True)
+
+
+# ### Partner Education Level variables drop
+# keep v252_cs : educational level spouse/partner:
+v252_to_drop = ['v252_edulvlb', 'v252_edulvlb_1', 'v252_ISCED_3', 'v252_ISCED_2', 'v252_ISCED_2b', 'v252_ISCED_1', 'v252_EISCED', 'v252_ISCED97', 
+                'v252_8cat', 'v252_r', 'v252_edulvlb_2', 'v252_cs_DE1', 'v252_cs_DE2', 'v252_cs_DE3', 'v252_cs_GB1', 'v252_cs_GB2']
+df_train.drop(columns=v252_to_drop, inplace=True)
+df_test.drop(columns=v252_to_drop, inplace=True)
+
+
+# ### Kind of job partner variables drop
+# keep v255_ESeC: kind of job spouse/partner
+v255_to_drop = ['v255_ISCO_2', 'v255_SIOPS', 'v255_ISEI', 'v255_egp']
+df_train.drop(columns=v255_to_drop, inplace=True)
+df_test.drop(columns=v255_to_drop, inplace=True)
+
+
+################################################### Households income variables to drop ################################################
+df_train.drop('v261_ppp', inplace=True, axis=1)
+df_test.drop('v261_ppp', inplace=True, axis=1)
+
+
+################################################## education level father/mother variables drop ################################################
+
+# keep v262_cs: educational level father: ESS-edulvlb coding two digits 
+v262_to_drop = ['v262_edulvlb', 'v262_edulvlb_1', 'v262_ISCED_3', 'v262_ISCED_2', 'v262_ISCED_2b', 'v262_ISCED_1', 'v262_EISCED', 'v262_ISCED97', 
+                'v262_8cat', 'v262_r', 'v262_edulvlb_2', 'v262_cs_DE1', 'v262_cs_DE2', 'v262_cs_DE3', 'v262_cs_GB1', 'v262_cs_GB2']
+df_train.drop(columns=v262_to_drop, inplace=True)
+df_test.drop(columns=v262_to_drop, inplace=True)
+
+# keep v263_cs:educational level mother: ESS-edulvlb coding two digits
+v263_to_drop = ['v263_edulvlb', 'v263_edulvlb_2', 'v263_edulvlb_1', 'v263_ISCED_3', 'v263_ISCED_2', 'v263_ISCED_2b', 'v263_ISCED_1', 'v263_EISCED',
+                 'v263_ISCED97', 'v263_8cat', 'v263_r', 'v263_edulvlb_2', 'v263_cs_DE1', 'v263_cs_DE2', 'v263_cs_DE3', 'v263_cs_GB1', 'v263_cs_GB2']
+df_train.drop(columns=v263_to_drop, inplace=True)
+df_test.drop(columns=v263_to_drop, inplace=True)
+
+
+################################################### Interview dates variables drop ########################################################################
+# v277: date of interview 
+# v278a: time of interview: start hour 
+# v278b: time of interview: start minute 
+# v278c_r: time of interview: start  
+# v279a: time of interview: end hour 
+# v279b: time of interview: end minute 
+# v279c_r: time of interview: end 
+# v279d_r: time of interview: duration in minutes 
+
+##### Keep v278a, v279d_r -- Duration in miniutes
+times_to_drop = ['v277', 'v278b', 'v278c_r', 'v279a', 'v279b', 'v279c_r']
+df_train.drop(columns=times_to_drop, inplace=True)
+df_test.drop(columns=times_to_drop, inplace=True)
+
+
+############################################################### MERGE COLUMNS ##############################################################
 merge_colname = find_colname_end(df_train, '_11c')
 merge_columns(df_train, merge_colname)
 merge_columns(df_test, merge_colname)
+
 # print(find_colname(train_x_raw, 'c', 'endwith'))
 # print(find_colname(train_x_raw, '_r', 'endwith'))
 ### Find variables containing _cs and do SimpleAggregation
@@ -304,7 +254,24 @@ merge_columns(df_test, merge_colname)
 #aggregatecol = find_colname_end(df_train, '_cs')
 #simpleAggregation(aggregatecol) #### TRAIN/TEST BOTH APPLICABLE
 
+
+########################################################## TIME FIX ##################################################
+### Convert fw_start ==> Start month of fw
+### Convert fw_end ==> Duration of fw
 timeEDA(df_train)
 timeEDA(df_test)
-####################################################################################################
-# %%
+
+##################################################### ONE HOT ENCODING ##################################################
+columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
+df_train.drop(columns=columns_to_drop, inplace=True)
+df_test.drop(columns=columns_to_drop, inplace=True)
+
+columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
+columns_to_encode += find_colname_end(df_train, '_cs')
+columns_to_encode += ['v246_ESeC','v255_ESeC']
+
+df_train = pd.get_dummies(df_train, columns=columns_to_encode)
+df_test = pd.get_dummies(df_test, columns=columns_to_encode)
+df_train = df_train.reindex(columns = sorted(df_train.columns))
+df_test = df_test.reindex(columns = sorted(df_test.columns))
+#######################################################################################################
