@@ -176,3 +176,7 @@ df_test.drop('v215', inplace=True, axis=1)
 df_train.drop('v174_LR', inplace=True, axis=1)
 df_test.drop('v174_LR', inplace=True, axis=1)
 
+######################## ONE-HOT ENCODING ####################################
+
+
+
