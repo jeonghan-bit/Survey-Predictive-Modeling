@@ -137,14 +137,6 @@ df_test.drop(columns=columns_to_drop, inplace=True)
 
 #columns_to_drop = ['v228b', 'v231b', 'v233b', 'v251b', 'f252_edulvlb_CH', 'v275b_N1', 'v275b_N2', 'v275c_N2', 'v281a']
 
-## removed the column having 'GB'
-df_train.drop(list(df_train.filter(regex='DE')), axis=1, inplace=True)
-df_test.drop(list(df_test.filter(regex='DE')), axis=1, inplace=True)
-
-## removed the column having 'GB'
-df_train.drop(list(df_train.filter(regex='GB')), axis=1, inplace=True)
-df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
-
 # Imputation 
 df_train.fillna({'v231b_r': -3}, inplace=True)
 df_test.fillna({'v231b_r': -3}, inplace=True)
@@ -271,8 +263,16 @@ df_train = pd.get_dummies(df_train, columns=columns_to_encode)
 df_test = pd.get_dummies(df_test, columns=columns_to_encode)
 df_train = df_train.reindex(columns = sorted(df_train.columns))
 df_test = df_test.reindex(columns = sorted(df_test.columns))
-###########################################################################################################################################
+################################################ 'DE' / 'GB' Country Specific Dropped ##################################################
 
+
+## removed the column having 'GB'
+df_train.drop(list(df_train.filter(regex='DE')), axis=1, inplace=True)
+df_test.drop(list(df_test.filter(regex='DE')), axis=1, inplace=True)
+
+## removed the column having 'GB'
+df_train.drop(list(df_train.filter(regex='GB')), axis=1, inplace=True)
+df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
 
 
 
