@@ -278,45 +278,45 @@ df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
 
 
 ###################################################################### CORRELATION CHECKUP ##########################################################################
-corr = df_train.corr()
-pairs = []
+# corr = df_train.corr()
+# pairs = []
 
-for i in range(len(corr.columns)):
-    for j in range(i+1, len(corr.columns)):  # i+1 to exclude self-correlation
-        if (0.95 <= corr.iloc[i, j] <= 1) or (-1 <= corr.iloc[i, j] <= -0.95):
-            pairs.append((corr.columns[i], corr.columns[j]))
+# for i in range(len(corr.columns)):
+#     for j in range(i+1, len(corr.columns)):  # i+1 to exclude self-correlation
+#         if (0.95 <= corr.iloc[i, j] <= 1) or (-1 <= corr.iloc[i, j] <= -0.95):
+#             pairs.append((corr.columns[i], corr.columns[j]))
 
 
-set_pairs = []
+# set_pairs = []
 
-for e in pairs:
-     set_pairs.append(set(e))
+# for e in pairs:
+#      set_pairs.append(set(e))
 
-x = list(set().union(*set_pairs))
+# x = list(set().union(*set_pairs))
 
-dic = {}
-for e in x:
-    dic[e] = df_train[e].corr(df_y['label'])
+# dic = {}
+# for e in x:
+#     dic[e] = df_train[e].corr(df_y['label'])
 
-remainder = []
-for i in set_pairs:
-    i = list(i)
-    if abs(dic[i[0]]) > abs(dic[i[1]]):
-        remainder.append(i[0])
-    else:
-        remainder.append(i[1])
-dropped = []
-for i in set_pairs:
-    i = list(i)
-    if abs(dic[i[0]]) < abs(dic[i[1]]):
-        dropped.append(i[0])
-    else:
-        dropped.append(i[1])
-for e in dropped:
-    if not e in df_train.columns :
-        continue
-    df_train.drop(e, inplace=True, axis=1)
-    df_test.drop(e, inplace=True, axis=1)
+# remainder = []
+# for i in set_pairs:
+#     i = list(i)
+#     if abs(dic[i[0]]) > abs(dic[i[1]]):
+#         remainder.append(i[0])
+#     else:
+#         remainder.append(i[1])
+# dropped = []
+# for i in set_pairs:
+#     i = list(i)
+#     if abs(dic[i[0]]) < abs(dic[i[1]]):
+#         dropped.append(i[0])
+#     else:
+#         dropped.append(i[1])
+# for e in dropped:
+#     if not e in df_train.columns :
+#         continue
+#     df_train.drop(e, inplace=True, axis=1)
+#     df_test.drop(e, inplace=True, axis=1)
 
 columns_to_drop += ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
 df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
