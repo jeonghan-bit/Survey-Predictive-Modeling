@@ -250,8 +250,11 @@ merge_columns(df_test, merge_colname)
 timeEDA(df_train)
 timeEDA(df_test)
 
+##################################################### ONE HOT ENCODING ##################################################
+columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
+df_train.drop(columns=columns_to_drop, inplace=True)
+df_test.drop(columns=columns_to_drop, inplace=True)
 
-<<<<<<< HEAD
 columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
 columns_to_encode += find_colname_end(df_train, '_cs')
 columns_to_encode += ['v246_ESeC','v255_ESeC']
@@ -272,50 +275,11 @@ df_train.drop(list(df_train.filter(regex='GB')), axis=1, inplace=True)
 df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
 
 
+columns_to_drop = ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
+df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
+df_test.drop(columns=columns_to_drop, inplace=True, axis=1)
 
 
-###################################################################### CORRELATION CHECKUP ##########################################################################
-# corr = df_train.corr()
-# pairs = []
-#
-# for i in range(len(corr.columns)):
-#     for j in range(i+1, len(corr.columns)):  # i+1 to exclude self-correlation
-#         if (0.95 <= corr.iloc[i, j] <= 1) or (-1 <= corr.iloc[i, j] <= -0.95):
-#             pairs.append((corr.columns[i], corr.columns[j]))
-#
-#
-# set_pairs = []
-#
-# for e in pairs:
-#      set_pairs.append(set(e))
-#
-# x = list(set().union(*set_pairs))
-#
-# dic = {}
-# for e in x:
-#     dic[e] = df_train[e].corr(df_y['label'])
-#
-# remainder = []
-# for i in set_pairs:
-#     i = list(i)
-#     if abs(dic[i[0]]) > abs(dic[i[1]]):
-#         remainder.append(i[0])
-#     else:
-#         remainder.append(i[1])
-# dropped = []
-# for i in set_pairs:
-#     i = list(i)
-#     if abs(dic[i[0]]) < abs(dic[i[1]]):
-#         dropped.append(i[0])
-#     else:
-#         dropped.append(i[1])
-# for e in dropped:
-#     if not e in df_train.columns :
-#         continue
-#     df_train.drop(e, inplace=True, axis=1)
-#     df_test.drop(e, inplace=True, axis=1)
-
-=======
 ##################################################################### CORRELATION CHECKUP ##########################################################################
 corr = df_train.corr()
 pairs = []
@@ -324,8 +288,7 @@ for i in range(len(corr.columns)):
     for j in range(i+1, len(corr.columns)):  # i+1 to exclude self-correlation
         if (0.95 <= corr.iloc[i, j] <= 1) or (-1 <= corr.iloc[i, j] <= -0.95):
             pairs.append((corr.columns[i], corr.columns[j]))
-
-
+            
 set_pairs = []
 
 for e in pairs:
@@ -356,37 +319,6 @@ for e in dropped:
         continue
     df_train.drop(e, inplace=True, axis=1)
     df_test.drop(e, inplace=True, axis=1)
-
-##################################################### ONE HOT ENCODING ##################################################
-columns_to_drop = ['v228b_r','v231b_r','v233b_r','v251b_r','v275c_N2', 'v275c_N1', 'v281a_r']
-df_train.drop(columns=columns_to_drop, inplace=True)
-df_test.drop(columns=columns_to_drop, inplace=True)
-
-columns_to_encode = ['v228b', 'v231b', 'v233b', 'v251b', 'v275b_N1', 'v275b_N2', 'v281a']
-columns_to_encode += find_colname_end(df_train, '_cs')
-columns_to_encode += ['v246_ESeC','v255_ESeC']
-
-df_train = pd.get_dummies(df_train, columns=columns_to_encode)
-df_test = pd.get_dummies(df_test, columns=columns_to_encode)
-df_train = df_train.reindex(columns = sorted(df_train.columns))
-df_test = df_test.reindex(columns = sorted(df_test.columns))
-################################################ 'DE' / 'GB' Country Specific Dropped ##################################################
-
-
-## removed the column having 'GB'
-df_train.drop(list(df_train.filter(regex='DE')), axis=1, inplace=True)
-df_test.drop(list(df_test.filter(regex='DE')), axis=1, inplace=True)
-
-## removed the column having 'GB'
-df_train.drop(list(df_train.filter(regex='GB')), axis=1, inplace=True)
-df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
-
-
->>>>>>> jeonghan
-columns_to_drop = ['v24a_IT', 'v52', 'v54', 'v64', 'f96', 'v102', 'v129', 'v172', 'v184', 'v171', 'v215', 'v174_LR']
-df_train.drop(columns=columns_to_drop, inplace=True, axis=1)
-df_test.drop(columns=columns_to_drop, inplace=True, axis=1)
-
 
 
 
