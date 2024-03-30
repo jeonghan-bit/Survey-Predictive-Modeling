@@ -333,7 +333,10 @@ df_test.drop(list(df_test.filter(regex='GB')), axis=1, inplace=True)
 
 
 
+for column in set(df_train.columns) - set(df_test.columns):
+    df_test[column] = 0
 
+df_test = df_test[df_train.columns]
 
 
 
