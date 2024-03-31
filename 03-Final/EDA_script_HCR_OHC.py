@@ -10,9 +10,9 @@ import seaborn as sns
 pd.options.display.max_rows = 999
 pd.options.display.max_columns = 999
 
-train_x_raw = pd.read_csv("X_train.csv", low_memory = False, index_col=0)
-train_y_raw = pd.read_csv("y_train.csv", low_memory = False, index_col=0)
-test_x_raw = pd.read_csv("X_test.csv", low_memory= False, index_col=0)
+train_x_raw = pd.read_csv("../01-Data/X_train.csv", low_memory = False, index_col=0)
+train_y_raw = pd.read_csv("../01-Data/y_train.csv", low_memory = False, index_col=0)
+test_x_raw = pd.read_csv("../01-Data/X_test.csv", low_memory= False, index_col=0)
 
 df_train = pd.DataFrame(train_x_raw)
 df_test = pd.DataFrame(test_x_raw)
