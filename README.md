@@ -21,3 +21,20 @@ where:
 - $M$ is the number of classes.
 - $y_{ij}$ is an indicator, being 1 if sample $i$ belongs to class $j$, and 0 otherwise.
 - $p_{ij}$ is the probability predicted by the model that sample $i$ belongs to class $j$.
+
+# Submission Format
+
+Submission files should contain six columns: id, no answer, very important, quite important, not important, not at all important, where id column should contain the index id for the test data. Rest columns should represent the probabilities of being classified to the corresponding category. Your submission should have a header.
+
+Submission Format
+
+```
+id,no answer,very important,quite important,not important,not at all important
+0,0.2,0.2,0.2,0.2,0.2
+1,0.2,0.2,0.2,0.2,0.2
+2,0.2,0.2,0.2,0.2,0.2
+3,0.2,0.2,0.2,0.2,0.2
+```
+
+# Kaggle Competition Link
+https://www.kaggle.com/competitions/w2024-kaggle-contest/overview
