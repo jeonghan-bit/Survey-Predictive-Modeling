@@ -1,6 +1,3 @@
-# Kaggle
-https://www.kaggle.com/competitions/w2024-kaggle-contest
-
 # About Data
  - Dataset of survey results to predict "how is religion important in one's life".
  - There are five possible responses for this question, which are: {'no answer':-1, 'very important':1, 'quite important':2, 'not important':3, 'not at all important':4}.
